@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -96,8 +97,36 @@ public class SampleController {
     }
     
     @PostMapping("/hi2")
-    public String[] getHi2(String idx) {
-        return new String[]{"Hello", "World"};
+    public String[] getHi2(@RequestParam("idx") String idx) {
+        return new String[]{"Hello", "World", idx};
+    }
+    
+    @PostMapping("/hi3")
+    public String[] getHi3(@RequestBody Map<String, String> params) {
+        return new String[]{"Hello", "World", params.get("idx")};
+    }
+
+    @PostMapping("/hi4")
+    public SampleVO getHi4(@RequestBody Map<String, String> params) {
+        SampleVO svo = new SampleVO("홍길동", params.get("age"));
+        return svo;
+    }
+    
+    @PostMapping("/hi5")
+    public List<SampleVO> getHi5(@RequestBody Map<String, String> params) {
+        List<SampleVO> list = new ArrayList<>();
+
+        SampleVO svo1 = new SampleVO("고길동",params.get("age1"));
+        list.add(svo1);
+        
+        SampleVO svo2 = new SampleVO("홍길동", params.get("age2"));
+        list.add(svo2);
+        
+        SampleVO svo3 = new SampleVO("노길동", "33");
+        list.add(svo3);
+
+        return list;
+        
     }
     
 }
